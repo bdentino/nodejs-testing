@@ -53,6 +53,7 @@ export class TestRunner implements vscode.Disposable {
     private readonly env: ConfigValue<Record<string, string>>,
     private readonly extensions: ConfigValue<ExtensionConfig[]>,
     private readonly pretest: Pretest,
+    private readonly runDir: ConfigValue<string>,
   ) {
     this.workerPath = join(extensionDir, "out", "runner-worker.js");
     this.disposables.add(concurrency);
@@ -64,6 +65,7 @@ export class TestRunner implements vscode.Disposable {
     this.disposables.add(env);
     this.disposables.add(extensions);
     this.disposables.add(pretest);
+    this.disposables.add(runDir);
   }
 
   public dispose() {
@@ -262,6 +264,7 @@ export class TestRunner implements vscode.Disposable {
                   verbose: this.verbose.value,
                   extraEnv,
                   coverageDir,
+                  runDir: this.runDir.value,
                 });
 
                 outputQueue.enqueue(() => run.appendOutput(style.done()));

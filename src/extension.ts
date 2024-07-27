@@ -48,6 +48,7 @@ export async function activate(context: vscode.ExtensionContext) {
           new ConfigValue("env", {}, folder),
           extensions,
           new Pretest(new ConfigValue("pretest", undefined, folder)),
+          new ConfigValue("runDir", "", folder),
         );
 
         ctrls.set(

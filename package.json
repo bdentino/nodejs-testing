@@ -30,6 +30,10 @@
             "default": "node",
             "description": "Path to the Node.js binary used to run tests"
           },
+          "nodejs-testing.runDir": {
+            "type": "string",
+            "description": "Path to run tests from. Defaults to the folder of the test file if empty."
+          },
           "nodejs-testing.nodejsParameters": {
             "type": "array",
             "deprecationMessage": "Use nodejs-testing.extensions instead!",

@@ -45,11 +45,12 @@ const start: (typeof contract)["TClientHandler"]["start"] = async ({
   verbose,
   extraEnv,
   coverageDir,
+  runDir,
 }) => {
   const todo: Promise<void>[] = [];
   for (let i = 0; i < concurrency && i < files.length; i++) {
     const prefix = colors[i % colors.length](`worker${i + 1}> `);
-    todo.push(doWork(prefix, files, extensions, verbose, extraEnv, coverageDir));
+    todo.push(doWork(prefix, files, extensions, verbose, extraEnv, coverageDir, runDir));
   }
   await Promise.all(todo);
 
@@ -63,6 +64,7 @@ async function doWork(
   verbose: boolean,
   extraEnv: Record<string, string>,
   coverageDir: string | undefined,
+  runDir: string | undefined,
 ) {
   while (queue.length) {
     const next = queue.pop()!;
@@ -90,7 +92,7 @@ async function doWork(
       }
 
       const cp = spawn(process.argv0, args, {
-        cwd: dirname(next.path),
+        cwd: runDir || dirname(next.path),
         stdio: "pipe",
         env: {
           // enable color for modules that use `supports-color` or similar
